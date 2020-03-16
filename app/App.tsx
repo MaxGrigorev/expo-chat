@@ -17,10 +17,10 @@ import { database } from "@services"
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
 
-socket.on('msg', msg => {
-  console.log("msg",msg)
-});
-  socket.emit('msg', "hello");
+// socket.on('msg', msg => {
+//   console.log("msg",msg)
+// });
+//   socket.emit('msg', "hello");
 
 const AppContainer = styled.View`
   flex: 1;

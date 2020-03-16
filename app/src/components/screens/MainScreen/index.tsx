@@ -1,5 +1,7 @@
-import React, { ReactElement } from "react";
-import { Text } from "react-native"
+import React, { ReactElement, useState } from "react";
+import { Text,KeyboardAvoidingView } from "react-native"
+import styled from "styled-components/native";
+
 
 import { BaseTemplate } from "@templates";
 import { theme } from "@configs";
@@ -11,6 +13,19 @@ import {
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 
 import { i18n } from "@i18n";
+import { socket } from "@services";
+
+import { TextInput, Button } from "@atoms";
+
+import { InputChat } from "@molecules";
+
+
+
+const TextInputStyled = styled(TextInput)``;
+
+const ScrollViewStyled = styled.ScrollView`
+
+`
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState, NavigationParams>;
@@ -20,9 +35,24 @@ const MainScreen: NavigationStackScreenComponent<Props> = ({
   navigation,
 }): ReactElement => {
 
+  const [inputValue, setInputValue] = useState("")
+
   return (
     <BaseTemplate>
-      <Text>text</Text>
+    <KeyboardAvoidingView
+      enabled
+      behavior="padding"
+      // behavior="position"
+      keyboardVerticalOffset={100}
+      style={{
+        width: "100%",
+      }}
+    >
+      <ScrollViewStyled>
+
+      </ScrollViewStyled>
+      <InputChat/>
+      </KeyboardAvoidingView>
     </BaseTemplate>
   );
 };
