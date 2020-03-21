@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 
 import { Reactotron } from "@configs";
 import { rootReducer } from "@ducks";
-import { RootState } from "./types";
+import { AppState } from "@ducks";
 
 let composeItems = [applyMiddleware(thunk)];
 
@@ -11,7 +11,7 @@ if (__DEV__) {
   composeItems.push(Reactotron.createEnhancer());
 }
 
-const store: Store<RootState> = createStore(
+const store: Store<AppState> = createStore(
   rootReducer,
   compose(...composeItems)
 

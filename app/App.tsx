@@ -15,12 +15,25 @@ import { isAndroid } from "@utils/common";
 import { database } from "@services"
 
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3000');
+const socket = openSocket('http://192.168.0.3:3000');
 
-// socket.on('msg', msg => {
-//   console.log("msg",msg)
-// });
-//   socket.emit('msg', "hello");
+import {joinRoom,reseiveMessage} from "@redux/ducks/dating"
+const {dispatch}=store
+
+socket.on('msg2room', msg => {
+  console.log("msg2room",msg)
+  dispatch(reseiveMessage(msg))
+});
+socket.emit('join', "hello");
+
+socket.on('connectRoom', msg => {
+  console.log("connectRoom msg", msg)
+  dispatch(joinRoom(msg))
+});
+
+socket.on('addToQuare', msg => {
+  console.log("addToQuare msg", msg)
+});
 
 const AppContainer = styled.View`
   flex: 1;

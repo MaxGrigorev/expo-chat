@@ -1,27 +1,19 @@
 import React, { ReactElement, useState } from "react";
 import { Text,KeyboardAvoidingView } from "react-native"
 import styled from "styled-components/native";
-
-
-import { BaseTemplate } from "@templates";
-import { theme } from "@configs";
 import {
   NavigationScreenProp,
   NavigationState,
   NavigationParams,
 } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
 
+import { BaseTemplate } from "@templates";
+import { theme } from "@configs";
 import { i18n } from "@i18n";
-import { socket } from "@services";
-
-import { TextInput, Button } from "@atoms";
 
 import { InputChat } from "@molecules";
-
-
-
-const TextInputStyled = styled(TextInput)``;
 
 const ScrollViewStyled = styled.ScrollView`
 
@@ -34,9 +26,8 @@ interface Props {
 const MainScreen: NavigationStackScreenComponent<Props> = ({
   navigation,
 }): ReactElement => {
-
-  const [inputValue, setInputValue] = useState("")
-
+  const datingState = useSelector((state) => state.dating);
+const {messages}={...datingState}
   return (
     <BaseTemplate>
     <KeyboardAvoidingView
@@ -49,7 +40,12 @@ const MainScreen: NavigationStackScreenComponent<Props> = ({
       }}
     >
       <ScrollViewStyled>
-
+{messages.map((msg)=>{
+return (<Text>
+  {msg.msg}
+  </Text>)
+})
+}
       </ScrollViewStyled>
       <InputChat/>
       </KeyboardAvoidingView>

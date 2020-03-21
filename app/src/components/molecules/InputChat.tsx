@@ -1,6 +1,7 @@
 import React, { ReactElement, useState,FunctionComponent } from "react";
 import { Text,KeyboardAvoidingView } from "react-native"
 import styled from "styled-components/native";
+import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
 
 
 import { BaseTemplate } from "@templates";
@@ -22,7 +23,9 @@ interface Props {
 }
 
 const InputChat: FunctionComponent<Props> = (): ReactElement => {
+  const datingState = useSelector((state) => state.dating);
 
+  const {room}={...datingState}
   const [inputValue, setInputValue] = useState("")
 
   return (<>
@@ -40,7 +43,7 @@ const InputChat: FunctionComponent<Props> = (): ReactElement => {
       <Button
         locKey="send"
         onPress={() => {
-          socket.emit('msg', inputValue);
+          socket.emit('msg2room', {room:room,msg:inputValue});
         }}
       />
       </>
