@@ -7,6 +7,7 @@ const SET_EXAMPLE = "dating/SET_EXAMPLE";
 const SET_INITIAL_STATE = "dating/SET_INITIAL_EXAMPLE";
 const RESEIVE_MESSAGE = "dating/RESEIVE_MESSAGE";
 const JOIN_ROOM = "dating/JOIN_ROOM"
+const ADD_TO_QUARE = "dating/ADD_TO_QUARE"
 
 interface AbstractAction {
   type: string;
@@ -29,6 +30,7 @@ type Action = Action_Payload;
 const initialState: State = {
   messages: [],
   room: null,
+  addToQuare:false,
 };
 
 // Reducer
@@ -53,6 +55,11 @@ const reducer: Reducer = (state = initialState, action: Action) => {
       return {
         ...initialState
       };
+    case ADD_TO_QUARE:
+      return {
+        ...state,
+        ...action.payload
+      };
     default:
       return state;
   }
@@ -72,6 +79,14 @@ export const joinRoom = (room: JoinRoomAction): Action_Payload => {
     payload: room
   };
 };
+
+export const addToQuare = (addToQuare: boolean): Action_Payload => {
+  return {
+    type: ADD_TO_QUARE,
+    payload: {addToQuare}
+  };
+};
+addToQuare
 
 export const setInitialUserStatus = (): AbstractAction => {
   return {

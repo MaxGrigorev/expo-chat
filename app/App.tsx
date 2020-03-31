@@ -11,28 +11,30 @@ import { AppNavigator } from "@navigation";
 import { setTopLevelNavigator } from "@services/navigation";
 import { expo } from "./app.json";
 import { useFontsLoader } from "@hooks";
-import { isAndroid } from "@utils/common";
+import { isAndroid,navToDating } from "@utils/common";
 import { database } from "@services"
 
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://192.168.0.3:3000');
+// import openSocket from 'socket.io-client';
+// const socket = openSocket('http://192.168.0.3:3000');
+import {socket} from "@services"
 
-import {joinRoom,reseiveMessage} from "@redux/ducks/dating"
+import {joinRoom, reseiveMessage, addToQuare} from "@redux/ducks/dating"
 const {dispatch}=store
 
 socket.on('msg2room', msg => {
   console.log("msg2room",msg)
   dispatch(reseiveMessage(msg))
 });
-socket.emit('join', "hello");
 
 socket.on('connectRoom', msg => {
   console.log("connectRoom msg", msg)
   dispatch(joinRoom(msg))
+  navToDating()
 });
 
 socket.on('addToQuare', msg => {
   console.log("addToQuare msg", msg)
+  dispatch(addToQuare(true))
 });
 
 const AppContainer = styled.View`

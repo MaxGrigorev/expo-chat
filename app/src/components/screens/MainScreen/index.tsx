@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Text,KeyboardAvoidingView } from "react-native"
+import { Text, KeyboardAvoidingView } from "react-native"
 import styled from "styled-components/native";
 import {
   NavigationScreenProp,
@@ -12,8 +12,10 @@ import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
 import { BaseTemplate } from "@templates";
 import { theme } from "@configs";
 import { i18n } from "@i18n";
+import { socket } from "@services"
 
 import { InputChat } from "@molecules";
+import { TextInput, Button } from "@atoms";
 
 const ScrollViewStyled = styled.ScrollView`
 
@@ -27,28 +29,18 @@ const MainScreen: NavigationStackScreenComponent<Props> = ({
   navigation,
 }): ReactElement => {
   const datingState = useSelector((state) => state.dating);
-const {messages}={...datingState}
+  const { addToQuare } = { ...datingState }
   return (
     <BaseTemplate>
-    <KeyboardAvoidingView
-      enabled
-      behavior="padding"
-      // behavior="position"
-      keyboardVerticalOffset={100}
-      style={{
-        width: "100%",
-      }}
-    >
-      <ScrollViewStyled>
-{messages.map((msg)=>{
-return (<Text>
-  {msg.msg}
-  </Text>)
-})
-}
-      </ScrollViewStyled>
-      <InputChat/>
-      </KeyboardAvoidingView>
+      {addToQuare && (<Text>
+        {"add to quare"}
+      </Text>)}
+      <Button
+        locKey="join"
+        onPress={() => {
+          socket.emit('join', "hello");
+        }}
+      />
     </BaseTemplate>
   );
 };

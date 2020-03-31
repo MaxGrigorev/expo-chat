@@ -1,5 +1,6 @@
 interface RouteNamesBase {
   index: string;
+  dating: string;
 }
 
 export interface RouteNames {
@@ -8,7 +9,8 @@ export interface RouteNames {
 
 const routeNames: RouteNames = {
   main: {
-    index: "MainScreen"
+    index: "MainScreen",
+    dating: "DatingScreen",
   },
 };
 

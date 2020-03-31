@@ -1,9 +1,7 @@
-import React, { ReactElement, useState,FunctionComponent } from "react";
-import { Text,KeyboardAvoidingView } from "react-native"
+import React, { ReactElement, useState, FunctionComponent } from "react";
+import { Text, KeyboardAvoidingView, View } from "react-native"
 import styled from "styled-components/native";
 import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
-
-
 import { BaseTemplate } from "@templates";
 import { theme } from "@configs";
 import {
@@ -14,39 +12,47 @@ import {
 
 import { i18n } from "@i18n";
 import { socket } from "@services";
+import { AppState } from "@redux/ducks"
 
 import { TextInput, Button } from "@atoms";
 
-const TextInputStyled = styled(TextInput)``;
+const TextInputStyled = styled(TextInput)`
+  flex: 1;
+  height: 36;
+  align-self: stretch
+`;
+
+const ButtonStyled = styled(Button)`
+  width:50;
+`;
 
 interface Props {
 }
 
 const InputChat: FunctionComponent<Props> = (): ReactElement => {
-  const datingState = useSelector((state) => state.dating);
+  const datingState = useSelector((state: AppState) => state.dating);
 
-  const {room}={...datingState}
+  const { room } = { ...datingState }
   const [inputValue, setInputValue] = useState("")
 
-  return (<>
+  return (<View >
+    <View style={{ flexDirection: "row" }}>
       <TextInputStyled
-        // onChangeText={text => setInputValue(text)}
         value={inputValue}
         onChange={({ nativeEvent: { text } }) => {
           setInputValue(text);
         }}
-        // editable
-      // maxLength={40}
-      multiline={true}
+        multiline={true}
       />
 
-      <Button
-        locKey="send"
+      <ButtonStyled
+        locKey="common.send"
         onPress={() => {
-          socket.emit('msg2room', {room:room,msg:inputValue});
+          socket.emit('msg2room', { room: room, msg: inputValue });
         }}
       />
-      </>
+    </View>
+  </View>
   );
 };
 
