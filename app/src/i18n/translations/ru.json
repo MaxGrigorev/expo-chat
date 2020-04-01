@@ -1,6 +1,7 @@
 {
   "common":{
     "example":"example",
-    "send":"send"
+    "send":"send",
+    "join":"Join"
   }
 }
