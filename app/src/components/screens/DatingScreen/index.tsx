@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Text, KeyboardAvoidingView, View } from "react-native"
+import { KeyboardAvoidingView, View } from "react-native"
 import styled from "styled-components/native";
 import {
   NavigationScreenProp,
@@ -8,6 +8,8 @@ import {
 } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
+import { Container, Header, Content, Button, Text,  H1, H2, H3,  } from 'native-base';
+import { Item, Input, Icon } from 'native-base';
 
 import { BaseTemplate } from "@templates";
 import { theme } from "@configs";
@@ -39,7 +41,7 @@ const DatingScreen: NavigationStackScreenComponent<Props> = ({
           flex:1
         }}
       >
-    <View style={{flex:1}}>
+    <View style={{flex:1, padding:10}}>
       {/* <KeyboardAvoidingView
         enabled
         // behavior="padding"

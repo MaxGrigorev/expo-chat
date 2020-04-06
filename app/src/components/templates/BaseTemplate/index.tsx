@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import moment from "moment";
 import 'moment/locale/en-gb';
 import 'moment/locale/ru';
+import { Container, Header, Content, Button, Text } from 'native-base';
 
 import { getStatusBarHeight } from "@utils/common";
 import { languageToMomentLocale } from "@i18n/languagesInfo";
@@ -35,10 +36,10 @@ const BaseTemplate: FC<Props> = ({
     }
   }
   return (
-    <TemplateView>
+    <Container>
       <StatusBar barStyle="dark-content"></StatusBar>
       {children}
-    </TemplateView>
+    </Container>
   );
 };
 

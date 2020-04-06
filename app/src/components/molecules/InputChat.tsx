@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, FunctionComponent } from "react";
-import { Text, KeyboardAvoidingView, View } from "react-native"
+import { KeyboardAvoidingView, View } from "react-native"
 import styled from "styled-components/native";
 import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
 import { BaseTemplate } from "@templates";
@@ -9,18 +9,20 @@ import {
   NavigationState,
   NavigationParams,
 } from "react-navigation";
+import { Container, Header, Content, Button, Text, H1, H2, H3, } from 'native-base';
+import { Item, Input, Icon } from 'native-base';
 
 import { i18n } from "@i18n";
 import { socket } from "@services";
 import { AppState } from "@redux/ducks"
 
-import { TextInput, Button } from "@atoms";
+// import { TextInput, Button } from "@atoms";
 
-const TextInputStyled = styled(TextInput)`
-  flex: 1;
-  height: 36;
-  align-self: stretch
-`;
+// const TextInputStyled = styled(TextInput)`
+//   flex: 1;
+//   height: 36;
+//   align-self: stretch
+// `;
 
 const ButtonStyled = styled(Button)`
   width:50;
@@ -35,25 +37,28 @@ const InputChat: FunctionComponent<Props> = (): ReactElement => {
   const { room } = { ...datingState }
   const [inputValue, setInputValue] = useState("")
 
-  return (<View >
-    <View style={{ flexDirection: "row" }}>
-      <TextInputStyled
-        value={inputValue}
-        onChange={({ nativeEvent: { text } }) => {
-          setInputValue(text);
-        }}
-        multiline={true}
-      />
-
-      <ButtonStyled
-        locKey="common.send"
-        onPress={() => {
-          socket.emit('msg2room', { room: room, msg: inputValue });
-        }}
-      />
-    </View>
-  </View>
-  );
+  return (<Item rounded style={{ alignItems: "flex-end", padding: 4 }}>
+    <Input
+      style={{ alignSelf: "center", maxHeight: 100 }}
+      value={inputValue}
+      onChange={({ nativeEvent: { text } }) => {
+        setInputValue(text);
+      }}
+      multiline={true}
+      placeholder='Enter message'
+    />
+    <Button
+      onPress={() => {
+        if (inputValue!==""){
+        socket.emit('msg2room', { room: room, msg: inputValue });
+        setInputValue("");
+        }
+      }}
+      transparent
+    >
+      <Icon type="FontAwesome" style={{ alignSelf: "flex-start" }} name='paper-plane' />
+    </Button>
+  </Item>)
 };
 
 export { InputChat };

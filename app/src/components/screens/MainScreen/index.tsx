@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Text, KeyboardAvoidingView } from "react-native"
+import { KeyboardAvoidingView } from "react-native"
 import styled from "styled-components/native";
 import {
   NavigationScreenProp,
@@ -8,6 +8,9 @@ import {
 } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
+import { Container, Header, Content, Button, Text,  H1, H2, H3,  } from 'native-base';
+import { Col, Row, Grid } from "react-native-easy-grid";
+
 
 import { BaseTemplate } from "@templates";
 import { theme } from "@configs";
@@ -15,7 +18,7 @@ import { i18n } from "@i18n";
 import { socket } from "@services"
 
 import { InputChat } from "@molecules";
-import { TextInput, Button } from "@atoms";
+// import { TextInput, Button } from "@atoms";
 
 const ScrollViewStyled = styled.ScrollView`
 
@@ -32,34 +35,40 @@ const MainScreen: NavigationStackScreenComponent<Props> = ({
   const { addToQuare } = { ...datingState }
   return (
     <BaseTemplate>
-      {addToQuare && (<Text>
-        {"add to quare"}
-      </Text>)}
-      <Button
-        locKey="join"
-        onPress={() => {
-          socket.emit('join', "hello");
-        }}
-      />
+      <Grid>
+        <Row size={3}>
+        <Col style={{justifyContent:"center", alignItems:"center"}}>
+          <H3>{"Welcome to"}</H3>
+          <H1>{"Chatter"}</H1>
+          {!addToQuare && (<Text>
+            {"Join to chat with random user"}
+          </Text>)
+          }
+          {addToQuare && (<Text>
+            {"add to quare"}
+          </Text>)
+          }
+        </Col>
+        </Row>
+        <Row size={1} >
+          <Col>
+            <Button
+              block
+              onPress={() => {
+                socket.emit('join', "hello");
+              }}
+            >
+              <Text>{i18n.t("common.join")}</Text>
+            </Button>
+            </Col>
+        </Row>
+      </Grid>
     </BaseTemplate>
   );
 };
 
 MainScreen.navigationOptions = ({ navigation }) => ({
-  title: i18n.t("common.title"),
-  headerTitleStyle: {
-    textAlign: "left",
-    flex: 1,
-    marginLeft: -10,
-    color: theme.palette.blackTwo[0],
-    fontFamily: theme.fonts.robotoCondensedRegular,
-    fontSize: 18,
-    lineHeight: 20,
-  },
-  headerBackTitle: null,
-  headerLeftContainerStyle: {
-    paddingHorizontal: 16,
-  },
+  header: null,
 });
 
 export { MainScreen };

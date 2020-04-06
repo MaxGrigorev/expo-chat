@@ -11,11 +11,11 @@ let freeUser = {}
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  socket.on('msg', function (msg) {
-    console.log('/////message: ');
-    console.log('%O', msg);
-    io.emit('msg', { msg: msg, id: socket.id });
-  });
+  // socket.on('msg', function (msg) {
+  //   console.log('/////message: ');
+  //   console.log('%O', msg);
+  //   io.emit('msg', { msg: msg, id: socket.id });
+  // });
 
   socket.on('join', function (msg) {
     console.log('/////join: ');
@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
     const roster = io.sockets.clients(msg.room);
     roster.forEach(function (client) {
       client.leave(msg.room)
-      client.emit('leavRoom', { msg: msg.msg, });
+      client.emit('leaveRoom', { msg: msg.msg, });
     });
   });
 
