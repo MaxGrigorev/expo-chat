@@ -31,6 +31,8 @@ const initialState: State = {
   messages: [],
   room: null,
   addToQuare:false,
+  partner:{},
+  selfId:null,
 };
 
 // Reducer

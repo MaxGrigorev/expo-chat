@@ -25,18 +25,23 @@ io.on('connection', (socket) => {
 
       //создаем room
       const room = uuid.v4();
-      socket.join(room);
 
-      const respondentId=Object.keys(freeUser)[0]
-
-      delete freeUser[respondentId]
+      const respondentId = Object.keys(freeUser)[0]
 
       const socket2 = io.sockets.connected[respondentId];
-      socket2.join(room);
 
-      io.sockets.to(room).emit('connectRoom', { room: room, });
+      socket.join(room);
+      socket.emit("connectRoom", { room: room, partner: { ...freeUser[respondentId] }, selfId: socket.id})
+
+      socket2.join(room);
+      socket2.emit("connectRoom", { room: room, partner: msg.user, selfId: socket2.id })
+
+      // io.sockets.to(room).emit('connectRoom', { room: room, });
+
+      //удаляем из очереди
+      delete freeUser[respondentId]
     } else {
-      freeUser[socket.id]={}
+      freeUser[socket.id] = { ...msg.user }
 
       socket.emit("addToQuare", "test")
     }
@@ -45,7 +50,7 @@ io.on('connection', (socket) => {
   socket.on('msg2room', function (msg) {
     console.log('/////msg2room: ');
     console.log('%O', msg);
-    io.sockets.to(msg.room).emit('msg2room', { msg: msg.msg, });
+    io.sockets.to(msg.room).emit('msg2room', { msg: msg.msg, id: socket.id });
   });
 
   socket.on('leaveRoom', function (msg) {

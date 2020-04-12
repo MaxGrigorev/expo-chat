@@ -8,9 +8,9 @@ import {
 } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
-import { Container, Header, Content, Button, Text,  H1, H2, H3,  } from 'native-base';
+import { Container, Header, Content, Button, Text, H1, H2, H3, } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
-
+import { Item, Input, Label, Icon } from 'native-base';
 
 import { BaseTemplate } from "@templates";
 import { theme } from "@configs";
@@ -33,34 +33,50 @@ const MainScreen: NavigationStackScreenComponent<Props> = ({
 }): ReactElement => {
   const datingState = useSelector((state) => state.dating);
   const { addToQuare } = { ...datingState }
+
+  const [inputValue, setInputValue] = useState("")
+  const [inputError, setInputError] = useState(false)
+
+
   return (
     <BaseTemplate>
       <Grid>
         <Row size={3}>
-        <Col style={{justifyContent:"center", alignItems:"center"}}>
-          <H3>{"Welcome to"}</H3>
-          <H1>{"Chatter"}</H1>
-          {!addToQuare && (<Text>
-            {"Join to chat with random user"}
-          </Text>)
-          }
-          {addToQuare && (<Text>
-            {"add to quare"}
-          </Text>)
-          }
-        </Col>
+          <Col style={{ justifyContent: "center", alignItems: "center" }}>
+            <H3>{"Welcome to"}</H3>
+            <H1>{"Chatter"}</H1>
+            {!addToQuare && (<Text>
+              {"Join to chat with random user"}
+            </Text>)
+            }
+            {addToQuare && (<Text>
+              {"add to quare"}
+            </Text>)
+            }
+            <Item stackedLabel error={inputError}>
+              <Label>{"Enter your name"}</Label>
+              <Input
+                value={inputValue}
+                onChange={({ nativeEvent: { text } }) => {
+                  setInputValue(text);
+                  if (text === "") setInputError(true)
+                }}
+              />
+            </Item>
+          </Col>
         </Row>
         <Row size={1} >
           <Col>
             <Button
               block
               onPress={() => {
-                socket.emit('join', "hello");
+                if (!(inputValue === "")) socket.emit('join', { user: { name: inputValue } });
+                if ((inputValue === "")) setInputError(true)
               }}
             >
               <Text>{i18n.t("common.join")}</Text>
             </Button>
-            </Col>
+          </Col>
         </Row>
       </Grid>
     </BaseTemplate>

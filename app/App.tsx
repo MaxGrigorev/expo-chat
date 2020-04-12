@@ -29,7 +29,7 @@ socket.on('msg2room', msg => {
 socket.on('connectRoom', msg => {
   console.log("connectRoom msg", msg)
   dispatch(joinRoom(msg))
-  navToDating()
+  navToDating({partner:msg.partner})
 });
 
 socket.on('addToQuare', msg => {

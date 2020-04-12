@@ -8,7 +8,7 @@ import {
 } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { connect, shallowEqual, useSelector, useDispatch } from "react-redux";
-import { Container, Header, Content, Button, Text,  H1, H2, H3,  } from 'native-base';
+import { Container, Header, Content, Button, Text, H1, H2, H3, } from 'native-base';
 import { Item, Input, Icon } from 'native-base';
 
 import { BaseTemplate } from "@templates";
@@ -16,6 +16,7 @@ import { theme } from "@configs";
 import { i18n } from "@i18n";
 
 import { InputChat } from "@molecules";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 const ScrollViewStyled = styled.ScrollView`
 width: 100%;
@@ -29,72 +30,55 @@ const DatingScreen: NavigationStackScreenComponent<Props> = ({
   navigation,
 }): ReactElement => {
   const datingState = useSelector((state) => state.dating);
-  const { messages } = { ...datingState }
+  const { messages,selfId } = { ...datingState }
   return (
     <BaseTemplate>
-    <KeyboardAvoidingView
+      <KeyboardAvoidingView
         enabled
         behavior="padding"
         // behavior="position"
         keyboardVerticalOffset={100}
         style={{
-          flex:1
+          flex: 1
         }}
       >
-    <View style={{flex:1, padding:10}}>
-      {/* <KeyboardAvoidingView
-        enabled
-        // behavior="padding"
-        behavior="position"
-        keyboardVerticalOffset={100}
-        style={{
-          width: "100%",
-          flex:1,
-          justifyContent:"space-between",
-          flexDirection:"row",
-          flexWrap:"wrap",
-        }}
-      > */}
-
-          {/* <View style={{ alignItems: 'flex-end',flexGrow:1,flexShrink:0,flexBasis:'auto' }}> */}
-          {/* <View> */}
-            <ScrollViewStyled>
-              {messages.map((msg, index) => {
-                return (<Text
-                  key={index}
-                >
-                  {msg.msg}
-                </Text>)
-              })
-              }
-            </ScrollViewStyled>
-          {/* </View> */}
-          {/* <View> */}
-          {/* <View style={{ alignSelf: 'flex-end',flexGrow:1,flexShrink:0,flexBasis:'auto' }}> */}
-            <InputChat />
-          {/* </View> */}
-      {/* </KeyboardAvoidingView> */}
-      </View>
+        <View style={{ flex: 1, padding: 10 }}>
+          <ScrollViewStyled>
+            {messages.map((msg, index) => {
+              return (<Text
+                key={index}
+                style={{color:`${selfId===msg.id ? "red":"green"}`}}
+              >
+                {msg.msg}
+              </Text>)
+            })
+            }
+          </ScrollViewStyled>
+          <InputChat />
+        </View>
       </KeyboardAvoidingView>
     </BaseTemplate>
   );
 };
 
-DatingScreen.navigationOptions = ({ navigation }) => ({
-  title: i18n.t("common.title"),
-  headerTitleStyle: {
-    textAlign: "left",
-    flex: 1,
-    marginLeft: -10,
-    color: theme.palette.blackTwo[0],
-    fontFamily: theme.fonts.robotoCondensedRegular,
-    fontSize: 18,
-    lineHeight: 20,
-  },
-  headerBackTitle: null,
-  headerLeftContainerStyle: {
-    paddingHorizontal: 16,
-  },
-});
+DatingScreen.navigationOptions = ({ navigation }) => {
+  const partner = navigation.getParam("partner")
+  return ({
+    title: partner.name,
+    headerTitleStyle: {
+      textAlign: "left",
+      flex: 1,
+      marginLeft: -10,
+      color: theme.palette.blackTwo[0],
+      fontFamily: theme.fonts.robotoCondensedRegular,
+      fontSize: 18,
+      lineHeight: 20,
+    },
+    headerBackTitle: null,
+    headerLeftContainerStyle: {
+      paddingHorizontal: 16,
+    },
+  })
+}
 
 export { DatingScreen };
