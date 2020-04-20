@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
       //создаем room
       const room = uuid.v4();
 
-      const respondentId = Object.keys(freeUser)[0]
+      const respondentId = Object.keys(freeUser)[0]//пока что берем первого в очереди
 
       const socket2 = io.sockets.connected[respondentId];
 
