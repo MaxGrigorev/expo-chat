@@ -37,9 +37,9 @@ const InputChat: FunctionComponent<Props> = (): ReactElement => {
   const { room } = { ...datingState }
   const [inputValue, setInputValue] = useState("")
 
-  return (<Item rounded style={{ alignItems: "flex-end", padding: 4 }}>
+  return (<Item rounded style={{}}>
     <Input
-      style={{ alignSelf: "center", maxHeight: 100 }}
+      style={{ maxHeight: 100, padding: 4, height:35 }}
       value={inputValue}
       onChange={({ nativeEvent: { text } }) => {
         setInputValue(text);
@@ -48,10 +48,11 @@ const InputChat: FunctionComponent<Props> = (): ReactElement => {
       placeholder='Enter message'
     />
     <Button
+      style={{ alignSelf: "flex-end", maxHeight: 100 }}
       onPress={() => {
-        if (inputValue!==""){
-        socket.emit('msg2room', { room: room, msg: inputValue });
-        setInputValue("");
+        if (inputValue !== "") {
+          socket.emit('msg2room', { room: room, msg: inputValue });
+          setInputValue("");
         }
       }}
       transparent

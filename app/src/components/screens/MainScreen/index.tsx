@@ -53,7 +53,7 @@ const MainScreen: NavigationStackScreenComponent<Props> = ({
               {"add to quare"}
             </Text>)
             }
-            <Item stackedLabel error={inputError}>
+            <Item floatingLabel error={inputError}>
               <Label>{"Enter your name"}</Label>
               <Input
                 value={inputValue}
