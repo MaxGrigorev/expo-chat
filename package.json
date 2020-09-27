@@ -1,0 +1,15 @@
+{
+  "name": "chatter-global-scripts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ngrok": "^3.2.5"
+  },
+  "scripts": {
+    "start": "yarn && node index.js"
+  },
+  "devDependencies": {}
+}
